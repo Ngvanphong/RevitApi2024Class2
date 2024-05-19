@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using excel = Microsoft.Office.Interop.Excel;
 
 namespace RevitApi2024.CreateBeamFrom
 {
@@ -18,25 +20,46 @@ namespace RevitApi2024.CreateBeamFrom
             UIDocument uiDoc = commandData.Application.ActiveUIDocument;
             Document doc = uiDoc.Document;
 
-            var pickBox = uiDoc.Selection.PickBox(PickBoxStyle.Crossing, "Chọn đối tượng theo box");
+            OpenFileDialog openFileDialog= new OpenFileDialog();
+            openFileDialog.Title = "Browser Excel Files";
+            openFileDialog.DefaultExt = "xlsx";
+            openFileDialog.Filter = "excel files (*.xlsx)|*.xlsx";
+            openFileDialog.RestoreDirectory = true;
 
-            IEnumerable<FamilySymbol> collection = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_StructuralFraming)
-                .WhereElementIsElementType().OfClass(typeof(FamilySymbol)).Cast<FamilySymbol>();
-            collection= collection.OrderBy(x=>x.Name);
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                List<BeamProperty> properties = new List<BeamProperty>();
+                string path = openFileDialog.FileName;
+                excel.Application appExecel = new excel.Application();
+                excel.Workbook workbook= appExecel.Workbooks.Open(path);
+                excel.Worksheet worksheet = workbook.Worksheets[1];
+                excel.Range useRange = worksheet.UsedRange;
+                int countRow = useRange.Rows.Count;
+                for(int row = 2; row < countRow; row++)
+                {
+                    var name= worksheet.Cells[row,1].Value;
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        double width = worksheet.Cells[row, 2].Value;
+                        double height= worksheet.Cells[row, 3].Value;
+                        BeamProperty beamPro= new BeamProperty(name, width, height);
+                        properties.Add(beamPro);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                workbook.Close();
+                appExecel.Quit();
+                
 
-            //var form = new wpfCreateBeam();
-            //form.comboboxTypeBeam.ItemsSource = collection;
-            //form.ShowDialog();
-            //if (form.DialogResult == true)
-            //{
-            //    TaskDialog.Show("CreateBeam", "Addin create beam");
-            //}
-
-            CreateBeamAppShow.ShowForm();
-            CreateBeamAppShow.frmCreateBeam.comboboxTypeBeam.ItemsSource = collection;
+            }
 
 
-            return Result.Succeeded;
+
+
+                return Result.Succeeded;
         }
     }
 }

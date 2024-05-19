@@ -15,45 +15,45 @@ namespace RevitApi2024
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            //UIDocument uiDoc = commandData.Application.ActiveUIDocument;
-            //Document doc = uiDoc.Document;
-            //Element element = null;
-            //element= doc.GetElement(uiDoc.Selection.GetElementIds().First());
+            UIDocument uiDoc = commandData.Application.ActiveUIDocument;
+            Document doc = uiDoc.Document;
+            Element element = null;
+            element = doc.GetElement(uiDoc.Selection.GetElementIds().First());
 
-            //Options geomOption = new Options();
-            //geomOption.IncludeNonVisibleObjects = false;
-            ////geomOption.View = doc.ActiveView; // lay che do fine cross, medium cua view hien tai
+            Options geomOption = new Options();
+            geomOption.IncludeNonVisibleObjects = false;
+            //geomOption.View = doc.ActiveView; // lay che do fine cross, medium cua view hien tai
 
-            //geomOption.DetailLevel = ViewDetailLevel.Fine; // chi dinh che do hinh hoc;
-            //geomOption.ComputeReferences = true; // dung de dim kich thuoc
+            geomOption.DetailLevel = ViewDetailLevel.Fine; // chi dinh che do hinh hoc;
+            geomOption.ComputeReferences = true; // dung de dim kich thuoc
 
-            //GeometryElement geoElement= element.get_Geometry(geomOption);
-            //foreach(GeometryObject geoObj in geoElement)
-            //{
-            //    if(geoObj is Solid)
-            //    {
-            //        Solid solid= geoObj as Solid;
-            //        //double m3 = UnitUtils.ConvertFromInternalUnits(solid.Volume, UnitTypeId.CubicMeters);
-            //        if (solid.Volume > 0.000001)
-            //        {
-            //            var faces= solid.Faces;
-            //            foreach(Face face in faces)
-            //            {
-            //                IList<CurveLoop> curveloopsOfFace = face.GetEdgesAsCurveLoops();
-            //                var edgeOfFace = face.EdgeLoops;
-            //            }
-            //        }
+            GeometryElement geoElement = element.get_Geometry(geomOption);
+            foreach (GeometryObject geoObj in geoElement)
+            {
+                if (geoObj is Solid)
+                {
+                    Solid solid = geoObj as Solid;
+                    //double m3 = UnitUtils.ConvertFromInternalUnits(solid.Volume, UnitTypeId.CubicMeters);
+                    if (solid.Volume > 0.000001)
+                    {
+                        var faces = solid.Faces;
+                        foreach (Face face in faces)
+                        {
+                            IList<CurveLoop> curveloopsOfFace = face.GetEdgesAsCurveLoops();
+                            var edgeOfFace = face.EdgeLoops;
+                        }
+                    }
 
-            //    }
-            //    else if(geoObj is Curve)
-            //    {
+                }
+                else if (geoObj is Curve)
+                {
 
-            //    }
-            //    else if (geoObj is GeometryInstance) 
-            //    {
-                   
-            //    }
-            //}
+                }
+                else if (geoObj is GeometryInstance)
+                {
+
+                }
+            }
 
             List<TestClass> testClasses = new List<TestClass>();
             TestClass t1 = new TestClass();
@@ -81,6 +81,14 @@ namespace RevitApi2024
 
             List<int> result2 = new List<int>();
             GetIntOfGeomInstance(ref result2, testClasses);
+
+            RevitLinkInstance revitRevit = doc.GetElement(uiDoc.Selection.GetElementIds().First()) as RevitLinkInstance;
+
+            Document documentLink = revitRevit.GetLinkDocument();
+            var beamCollection = new FilteredElementCollector(documentLink).OfCategory(BuiltInCategory.OST_StructuralFraming);
+            
+
+
 
 
             return Result.Succeeded;

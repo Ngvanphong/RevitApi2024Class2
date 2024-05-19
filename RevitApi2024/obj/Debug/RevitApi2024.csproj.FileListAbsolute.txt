@@ -94,3 +94,4 @@ C:\Users\ngvan\Documents\RevitApiClass\RevitApi2024\RevitApi2024\RevitApi2024\ob
 C:\Users\ngvan\Documents\RevitApiClass\RevitApi2024\RevitApi2024\RevitApi2024\obj\Debug\RevitApi2024.g.resources
 C:\Users\ngvan\Documents\RevitApiClass\RevitApi2024\RevitApi2024\RevitApi2024\obj\Debug\CreateColunn\wpfCreateColumn.g.cs
 C:\Users\ngvan\Documents\RevitApiClass\RevitApi2024\RevitApi2024\RevitApi2024\obj\Debug\CreateColunn\wpfCreateColumn.baml
+C:\Users\ngvan\Documents\RevitApiClass\RevitApi2024\RevitApi2024\RevitApi2024\obj\Debug\RevitApi2024.csproj.ResolveComReference.cache

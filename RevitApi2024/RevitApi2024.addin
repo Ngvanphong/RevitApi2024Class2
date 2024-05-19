@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+	<AddIn Type="Command">
+		<Text>Command RevitApi2024</Text>
+		<Description>RevitApi2024</Description>
+		<Assembly>RevitApi2024.dll</Assembly>
+		<FullClassName>RevitApi2024.Command</FullClassName>
+		<ClientId>cc865893-0dc3-4f45-9f4d-5383ef174470</ClientId>
+		<VendorId>Tobic</VendorId>
+		<VendorDescription>Tobic</VendorDescription>
+	</AddIn>
+	<AddIn Type="Application">
+		<Name>Application RevitApi2024</Name>
+		<Assembly>RevitApi2024.dll</Assembly>
+		<FullClassName>RevitApi2024.App</FullClassName>
+		<ClientId>ae8af5a6-53f4-418e-8f74-6d022ead1e15</ClientId>
+		<VendorId>Tobic</VendorId>
+		<VendorDescription>Tobic</VendorDescription>
+	</AddIn>
+</RevitAddIns>

@@ -15,13 +15,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Autodesk.Revit.UI;
+using Wpf.Ui.Appearance;
+using Wpf.Ui.Controls;
 
 namespace RevitApi2024.CreateBeamFrom
 {
     /// <summary>
     /// Interaction logic for wpfCreateBeam.xaml
     /// </summary>
-    public partial class wpfCreateBeam : Window, INotifyPropertyChanged
+    public partial class wpfCreateBeam : FluentWindow
     {
         private readonly ExternalEvent _pickPointEvent;
         private readonly ExternalEvent _createBeamEvent;
@@ -42,10 +44,8 @@ namespace RevitApi2024.CreateBeamFrom
         public wpfCreateBeam(ExternalEvent pickPointEvent, ExternalEvent createBeamEvent)
         {
             InitializeComponent();
-            _pickPointEvent = pickPointEvent;
-            _createBeamEvent = createBeamEvent;
-            this.DataContext = this;
-            IsEnableOkButton = false;
+            //ApplicationThemeManager.Apply(this);
+            
         }
 
         private void btnPickPoint(object sender, RoutedEventArgs e)

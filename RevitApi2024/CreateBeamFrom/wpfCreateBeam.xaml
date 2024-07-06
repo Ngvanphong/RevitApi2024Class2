@@ -1,33 +1,36 @@
-﻿<Window x:Class="RevitApi2024.CreateBeamFrom.wpfCreateBeam"
+﻿<ui:FluentWindow x:Class="RevitApi2024.CreateBeamFrom.wpfCreateBeam"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:local="clr-namespace:RevitApi2024.CreateBeamFrom"
              mc:Ignorable="d" 
              Height="250" Width="400" Topmost="True">
+    <ui:FluentWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ui:ThemesDictionary Theme="Light" />
+                <ui:ControlsDictionary />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        
+    </ui:FluentWindow.Resources>
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
-        <ComboBox Name="comboboxTypeBeam" VerticalAlignment="Top" Height="30">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Name}"/>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-
-
-        <StackPanel HorizontalAlignment="Right" Grid.Row="1" Orientation="Horizontal">
-            <Button Click="btnPickPoint"  Width="80" Content="Click"/>
-            <GridSplitter Width="5"/>
-            <Button  IsEnabled="{Binding IsEnableOkButton}" 
-                    Click="btnOk" Width="80" Content="Ok"/>
+        <StackPanel>
+            <ui:TitleBar Title="WPF UI"/>
+            <ui:Card Margin="8">
+                <ui:Button   Content="Hello World" Appearance="Info" />
+            </ui:Card>
+            <ComboBox />
         </StackPanel>
-        
-        
+       
+
+
     </Grid>
-</Window>
+</ui:FluentWindow>

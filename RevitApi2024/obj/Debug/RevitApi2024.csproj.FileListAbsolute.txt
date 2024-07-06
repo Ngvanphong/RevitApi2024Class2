@@ -95,3 +95,10 @@ C:\Users\ngvan\Documents\RevitApiClass\RevitApi2024\RevitApi2024\RevitApi2024\ob
 C:\Users\ngvan\Documents\RevitApiClass\RevitApi2024\RevitApi2024\RevitApi2024\obj\Debug\CreateColunn\wpfCreateColumn.g.cs
 C:\Users\ngvan\Documents\RevitApiClass\RevitApi2024\RevitApi2024\RevitApi2024\obj\Debug\CreateColunn\wpfCreateColumn.baml
 C:\Users\ngvan\Documents\RevitApiClass\RevitApi2024\RevitApi2024\RevitApi2024\obj\Debug\RevitApi2024.csproj.ResolveComReference.cache
+C:\Users\ngvan\Documents\RevitApiClass\RevitApi2024\RevitApi2024\RevitApi2024\bin\Debug\netDxf.dll
+C:\Users\ngvan\Documents\RevitApiClass\RevitApi2024\RevitApi2024\RevitApi2024\bin\Debug\netDxf.xml
+C:\Users\ngvan\Documents\RevitApiClass\RevitApi2024\RevitApi2024\RevitApi2024\bin\Debug\Wpf.Ui.dll
+C:\Users\ngvan\Documents\RevitApiClass\RevitApi2024\RevitApi2024\RevitApi2024\bin\Debug\Wpf.Ui.pdb
+C:\Users\ngvan\Documents\RevitApiClass\RevitApi2024\RevitApi2024\RevitApi2024\bin\Debug\Wpf.Ui.xml
+C:\Users\ngvan\Documents\RevitApiClass\RevitApi2024\RevitApi2024\RevitApi2024\bin\Debug\Newtonsoft.Json.dll
+C:\Users\ngvan\Documents\RevitApiClass\RevitApi2024\RevitApi2024\RevitApi2024\bin\Debug\Newtonsoft.Json.xml

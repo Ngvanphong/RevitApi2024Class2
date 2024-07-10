@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 
-21597939559
+3283370702
 11211127308
-24-1105373591
+25-1086983384
 241168068145
-CreateBeamFrom\wpfCreateBeam.xaml;CreateColunn\wpfCreateColumn.xaml;
+CreateBeamFrom\wpfCreateBeam.xaml;CreateColunn\wpfCreateColumn.xaml;ProgressBarWpf.xaml;
 
-True
+False
 

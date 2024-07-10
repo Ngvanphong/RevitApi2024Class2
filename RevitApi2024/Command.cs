@@ -11,16 +11,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Threading;
 
 namespace RevitApi2024
 {
     [Transaction(TransactionMode.Manual)]
     public class Command : IExternalCommand
     {
+        private delegate int ProgessBarValueDelegate();
+        private int Percent;
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             UIDocument uiDoc = commandData.Application.ActiveUIDocument;
             Document doc = uiDoc.Document;
+            
+
 
             //var collection = new FilteredElementCollector(doc)
             //    .OfCategory(BuiltInCategory.OST_StructuralColumns)
@@ -48,14 +53,21 @@ namespace RevitApi2024
             //Transform cadTransform = null;
             //var newPoint = cadTransform.OfPoint(new XYZ(1, 2, 2));
 
+            ShowForm.Show();
+            var form = ShowForm.ProgressBarWpf;
+            Percent = 0;
+            form.progressBar.Dispatcher.Invoke(new ProgessBarValueDelegate(UpdateProgressBar), DispatcherPriority.Background);
 
             var viewSetCollection= new FilteredElementCollector(doc).OfClass(typeof(ViewSheetSet))
                 .Cast<ViewSheetSet>();
 
-            PrintManager printManager = doc.PrintManager;
-            ViewSheetSetting viewSheetSetting = printManager.ViewSheetSetting ;
+            Percent = 3;
+            form.progressBar.Dispatcher.Invoke(new ProgessBarValueDelegate(UpdateProgressBar), DispatcherPriority.Background);
+
+            //PrintManager printManager = doc.PrintManager;
+            //ViewSheetSetting viewSheetSetting = printManager.ViewSheetSetting ;
             ViewSheetSet viewSheetSet = viewSetCollection.First(x => x.Name == "11");
-            viewSheetSetting.CurrentViewSheetSet= viewSheetSet;
+            //viewSheetSetting.CurrentViewSheetSet= viewSheetSet;
 
             //ViewSet myViewSet = new ViewSet();
             //foreach (var sheet in viewSheetSet.OrderedViewList)
@@ -67,8 +79,9 @@ namespace RevitApi2024
 
 
 
-            printManager.PrintRange = PrintRange.Select;
-            printManager.PrintToFile = true;
+            //printManager.PrintRange = PrintRange.Select;
+            //printManager.PrintToFile = true;
+
             string pathDoc = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
             string project = doc.ProjectInformation.Name;
@@ -85,28 +98,54 @@ namespace RevitApi2024
             }
             string path= Path.Combine(pathDoc, fileName);
 
-            var interator = printManager.PaperSizes.ForwardIterator();
-            interator.MoveNext();
+            //var interator = printManager.PaperSizes.ForwardIterator();
+            //interator.MoveNext();
 
-            IPrintSetting printSettings = printManager.PrintSetup.CurrentPrintSetting;
-            printSettings.PrintParameters.PageOrientation = PageOrientationType.Landscape;
-            printSettings.PrintParameters.PaperSize =  interator.Current as PaperSize;
-            printSettings.PrintParameters.ZoomType = ZoomType.Zoom;
-            printSettings.PrintParameters.Zoom = 100;
-            printSettings.PrintParameters.ColorDepth = ColorDepthType.GrayScale;
+            //IPrintSetting printSettings = printManager.PrintSetup.CurrentPrintSetting;
+            //printSettings.PrintParameters.PageOrientation = PageOrientationType.Landscape;
+            //printSettings.PrintParameters.PaperSize =  interator.Current as PaperSize;
+            //printSettings.PrintParameters.ZoomType = ZoomType.Zoom;
+            //printSettings.PrintParameters.Zoom = 100;
+            //printSettings.PrintParameters.ColorDepth = ColorDepthType.GrayScale;
 
-            printManager.PrintSetup.CurrentPrintSetting = printSettings;
+            //printManager.PrintSetup.CurrentPrintSetting = printSettings;
 
-            printManager.CombinedFile = true;
-            printManager.Apply();
+            //printManager.CombinedFile = true;
+            //printManager.Apply();
 
             //foreach(Autodesk.Revit.DB.View sheet in myViewSet)
             //{
 
             //    printManager.SubmitPrint(sheet);
             //}
+            
+            PDFExportOptions pdfExportOption= new PDFExportOptions();
+            pdfExportOption.FileName = fileName;
+            pdfExportOption.PaperPlacement = PaperPlacementType.Center;
+            pdfExportOption.PaperOrientation = PageOrientationType.Landscape;
+            pdfExportOption.ZoomType = ZoomType.Zoom;
+            pdfExportOption.Combine = true;
+            pdfExportOption.ExportQuality = PDFExportQualityType.DPI300;
+            pdfExportOption.PaperFormat = ExportPaperFormat.ISO_A1;
+            pdfExportOption.RasterQuality = RasterQualityType.Medium;
+            pdfExportOption.AlwaysUseRaster = false;
+            pdfExportOption.ColorDepth = ColorDepthType.Color;
 
+            Percent = 10;
+            form.progressBar.Dispatcher.Invoke(new ProgessBarValueDelegate(UpdateProgressBar), DispatcherPriority.Background);
+            List<ElementId> listElementId= new List<ElementId>();
 
+            int add = 80 / viewSheetSet.OrderedViewList.Count;
+            foreach (var sheet in viewSheetSet.OrderedViewList)
+            {
+                Percent+=add;
+                form.progressBar.Dispatcher.Invoke(new ProgessBarValueDelegate(UpdateProgressBar), DispatcherPriority.Background);
+                listElementId.Add(sheet.Id);
+            }
+
+            doc.Export(pathDoc, listElementId, pdfExportOption);
+            Percent = 100;
+            form.progressBar.Dispatcher.Invoke(new ProgessBarValueDelegate(UpdateProgressBar), DispatcherPriority.Background);
 
             return Result.Succeeded;
         }
@@ -180,6 +219,13 @@ namespace RevitApi2024
                 GetIntSolid(item.Items);
             }
             return resultInt;
+        }
+
+        public int UpdateProgressBar()
+        {
+            ShowForm.ProgressBarWpf.progressBar.Value = Percent;
+            ShowForm.ProgressBarWpf.txtPercent.Text = Percent.ToString() + "%";
+            return 0;
         }
 
 

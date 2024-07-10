@@ -16,22 +16,7 @@ namespace RevitApi2024.CreateColunn
             UIDocument uiDoc = app.ActiveUIDocument;
             Document doc = uiDoc.Document;
 
-            XYZ pointColumn = null;
-            try
-            {
-                pointColumn = uiDoc.Selection.PickPoint();
-            }
-            catch { };
-
-            FamilySymbol familySymbol = CreateColumnAppShow.frmCreateColumn.comboboxTypeColumn.SelectedItem as FamilySymbol;
-            using (Transaction tr = new Transaction(doc, "CreateColunn"))
-
-            {
-                tr.Start();
-                if (!familySymbol.IsActive) { familySymbol.Activate(); }
-                doc.Create.NewFamilyInstance(pointColumn, familySymbol, doc.ActiveView.GenLevel, Autodesk.Revit.DB.Structure.StructuralType.Column );
-                tr.Commit();
-            }
+           
 
         }
 
